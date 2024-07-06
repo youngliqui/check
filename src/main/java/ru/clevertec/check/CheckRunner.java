@@ -1,9 +1,7 @@
 package ru.clevertec.check;
 
 
-import ru.clevertec.check.arguments.impl.BalanceDebitCardArgumentStrategy;
-import ru.clevertec.check.arguments.impl.DiscountCardArgumentStrategy;
-import ru.clevertec.check.arguments.impl.ProductArgumentStrategy;
+import ru.clevertec.check.arguments.impl.*;
 import ru.clevertec.check.controllers.CheckController;
 import ru.clevertec.check.services.CheckService;
 import ru.clevertec.check.services.factory.ServiceFactory;
@@ -18,6 +16,8 @@ public class CheckRunner {
                 Arrays.asList(
                         new BalanceDebitCardArgumentStrategy(),
                         new DiscountCardArgumentStrategy(),
+                        new PathToFileArgumentStrategy(),
+                        new SaveToFileArgumentStrategy(),
                         new ProductArgumentStrategy()
                 )
         );

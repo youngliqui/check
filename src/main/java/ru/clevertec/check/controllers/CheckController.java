@@ -61,6 +61,7 @@ public class CheckController {
             if (balanceDebitCard == null) {
                 throw new InvalidInputException("Debit balance must not be null");
             }
+            checkPathToFileArgs(context);
 
             checkService.generateCheck(idsAndQuantities, discountCardNumber, balanceDebitCard);
 
@@ -70,6 +71,23 @@ public class CheckController {
         } catch (Exception e) {
             System.out.println("INTERNAL SERVER ERROR: " + e.getMessage());
             checkService.generateExceptionCheck(INTERNAL_SERVER_ERROR.getMessage());
+        }
+    }
+
+    private void checkPathToFileArgs(Map<String, Object> context) throws InvalidInputException {
+        boolean containsPathToFile = context.containsKey("pathToFile");
+        boolean containsSaveToFile = context.containsKey("saveToFile");
+
+        if (!containsPathToFile && !containsSaveToFile) {
+            throw new InvalidInputException("saveToFile and pathToFile is missing");
+        }
+
+        if (containsPathToFile && !containsSaveToFile) {
+            throw new InvalidInputException("saveToFile argument is missing");
+        }
+
+        if (!containsPathToFile) {
+            throw new InvalidInputException("pathToFile argument is missing");
         }
     }
 }
