@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import static ru.clevertec.check.config.AppConfig.RESULT_FILE_PATH;
+import static ru.clevertec.check.config.AppConfig.getResultFilePath;
 
 /**
  * Implementation of the CheckRepository interface for working with receipts in a csv file
@@ -19,7 +19,7 @@ public class CsvCheckRepository implements CheckRepository {
 
     @Override
     public void save(Check check) {
-        try (FileWriter writer = new FileWriter(RESULT_FILE_PATH)) {
+        try (FileWriter writer = new FileWriter(getResultFilePath())) {
 
             LocalDateTime dateTime = LocalDateTime.now();
             check.setDateTime(dateTime);
@@ -68,7 +68,7 @@ public class CsvCheckRepository implements CheckRepository {
 
     @Override
     public void saveException(String message) {
-        try (FileWriter writer = new FileWriter(RESULT_FILE_PATH)) {
+        try (FileWriter writer = new FileWriter(getResultFilePath())) {
 
             writer.write(message);
 

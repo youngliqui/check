@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 import java.util.*;
 
 import static ru.clevertec.check.config.AppConfig.CSV_DELIMITER;
-import static ru.clevertec.check.config.AppConfig.PRODUCT_FILE_PATH;
+import static ru.clevertec.check.config.AppConfig.getProductFilePath;
 
 /**
  * Implementation of the ProductRepository interface for working with products in a csv file
@@ -23,7 +23,7 @@ import static ru.clevertec.check.config.AppConfig.PRODUCT_FILE_PATH;
 public class CsvProductRepository implements ProductRepository {
     @Override
     public Optional<Product> getProductById(int id) {
-        try (CSVParser csvParser = new CSVParser(new FileReader(PRODUCT_FILE_PATH),
+        try (CSVParser csvParser = new CSVParser(new FileReader(getProductFilePath()),
                 CSVFormat.Builder.create()
                         .setHeader("id", "description", "price, $", "quantity in stock", "wholesale product")
                         .setDelimiter(CSV_DELIMITER)
@@ -53,7 +53,7 @@ public class CsvProductRepository implements ProductRepository {
     public List<Product> getProductsByIds(List<Integer> ids) throws ProductNotFoundException {
         List<Product> products = new ArrayList<>();
 
-        try (CSVParser csvParser = new CSVParser(new FileReader(PRODUCT_FILE_PATH),
+        try (CSVParser csvParser = new CSVParser(new FileReader(getProductFilePath()),
                 CSVFormat.Builder.create()
                         .setHeader("id", "description", "price, $", "quantity in stock", "wholesale product")
                         .setDelimiter(CSV_DELIMITER)
