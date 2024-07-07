@@ -4,6 +4,8 @@ package ru.clevertec.check.services;
 import ru.clevertec.check.exceptions.DiscountCardNotFoundException;
 import ru.clevertec.check.models.DiscountCard;
 
+import java.io.IOException;
+
 /**
  * The receipt that will be printed
  */
@@ -15,5 +17,5 @@ public interface DiscountCardService {
      * @return discount card
      * @throws DiscountCardNotFoundException - when the card was not found
      */
-    DiscountCard getDiscountCardByNumber(String number) throws DiscountCardNotFoundException;
+    DiscountCard getDiscountCardByNumber(String number) throws DiscountCardNotFoundException, IOException;
 }

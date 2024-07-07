@@ -11,14 +11,14 @@ import ru.clevertec.check.services.CheckService;
 import ru.clevertec.check.services.DiscountCardService;
 import ru.clevertec.check.services.ProductService;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static ru.clevertec.check.exceptions.ErrorMessage.BAD_REQUEST;
-import static ru.clevertec.check.exceptions.ErrorMessage.NOT_ENOUGH_MONEY;
+import static ru.clevertec.check.exceptions.ErrorMessage.*;
 
 public class CheckServiceImpl implements CheckService {
     private final CheckRepository checkRepository;
@@ -38,10 +38,9 @@ public class CheckServiceImpl implements CheckService {
                               BigDecimal balanceDebitCard) {
         try {
             List<Integer> ids = new ArrayList<>(idsAndQuantities.keySet());
-
             List<Product> products = productService.getProductsByIds(ids);
-
             DiscountCard discountCard = null;
+
             if (discountCardNumber != null) {
                 discountCard = discountCardService.getDiscountCardByNumber(discountCardNumber);
             }
@@ -58,8 +57,11 @@ public class CheckServiceImpl implements CheckService {
             }
 
         } catch (ProductNotFoundException | DiscountCardNotFoundException | QuantityException e) {
-            System.out.println("ERROR: " + e.getMessage());
+            String error = BAD_REQUEST.getMessage();
+            System.out.println(error + ": " + e.getMessage());
             generateExceptionCheck(BAD_REQUEST.getMessage());
+        } catch (IOException e) {
+            generateExceptionCheck(INTERNAL_SERVER_ERROR.getMessage());
         }
     }
 

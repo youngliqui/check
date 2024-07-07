@@ -16,13 +16,14 @@ import java.util.*;
 
 import static ru.clevertec.check.config.AppConfig.CSV_DELIMITER;
 import static ru.clevertec.check.config.AppConfig.getProductFilePath;
+import static ru.clevertec.check.exceptions.ErrorMessage.INTERNAL_SERVER_ERROR;
 
 /**
  * Implementation of the ProductRepository interface for working with products in a csv file
  */
 public class CsvProductRepository implements ProductRepository {
     @Override
-    public Optional<Product> getProductById(int id) {
+    public Optional<Product> getProductById(int id) throws IOException {
         try (CSVParser csvParser = new CSVParser(new FileReader(getProductFilePath()),
                 CSVFormat.Builder.create()
                         .setHeader("id", "description", "price, $", "quantity in stock", "wholesale product")
@@ -43,14 +44,15 @@ public class CsvProductRepository implements ProductRepository {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(INTERNAL_SERVER_ERROR.getMessage() + ": " + e.getMessage());
+            throw new IOException(e.getMessage());
         }
 
         return Optional.empty();
     }
 
     @Override
-    public List<Product> getProductsByIds(List<Integer> ids) throws ProductNotFoundException {
+    public List<Product> getProductsByIds(List<Integer> ids) throws ProductNotFoundException, IOException {
         List<Product> products = new ArrayList<>();
 
         try (CSVParser csvParser = new CSVParser(new FileReader(getProductFilePath()),
@@ -82,7 +84,8 @@ public class CsvProductRepository implements ProductRepository {
                 }
             }
         } catch (IOException e) {
-            System.out.println("ERROR: " + e.getMessage());
+            System.out.println(INTERNAL_SERVER_ERROR.getMessage() + ": " + e.getMessage());
+            throw new IOException(e.getMessage());
         }
 
         return products;
