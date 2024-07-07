@@ -5,6 +5,8 @@ import ru.clevertec.check.models.DiscountCard;
 import ru.clevertec.check.repositories.DiscountCardRepository;
 import ru.clevertec.check.services.DiscountCardService;
 
+import java.io.IOException;
+
 public class DiscountCardServiceImpl implements DiscountCardService {
     private final DiscountCardRepository discountCardRepository;
 
@@ -13,7 +15,7 @@ public class DiscountCardServiceImpl implements DiscountCardService {
     }
 
     @Override
-    public DiscountCard getDiscountCardByNumber(String number) throws DiscountCardNotFoundException {
+    public DiscountCard getDiscountCardByNumber(String number) throws DiscountCardNotFoundException, IOException {
         return discountCardRepository.getDiscountCardByNumber(number).orElseThrow(
                 () -> new DiscountCardNotFoundException(number)
         );

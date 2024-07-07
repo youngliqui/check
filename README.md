@@ -8,35 +8,49 @@
 ./gradlew shadowJar
 ```
 ```
-java -jar .\build\libs\app.jar 1-1 2-2 15-2 1-5 discountCard=3333 balanceDebitCard=150
+java -jar .\build\libs\app.jar 1-1 2-12 discountCard=3333 balanceDebitCard=50 pathToFile=./products.csv saveToFile=./result_file.csv
 ```
 Формат команды:
 
-`java -jar .\build\libs\app.jar <items> discountCard=<cardNumber> balanceDebitCard=<balance>`
+`java -jar .\build\libs\app.jar <items> discountCard=<cardNumber> balanceDebitCard=<balance> pathToFile=<pathToFile> saveToFile=<saveToFile>`
 
 Расшифровка команды:
 - `<items>` - (id-quantity): ID товара-Количество
 - `<cardNumber>` - номер дисконтной карты
 - `<balance>` - баланс дебетовой карты
+- `<pathToFile>` - путь к файлу с товарами
+- `<saveToFile>` - путь к файлу с результатом
 
-### По команде создается файл `result.csv`:
+### По команде создается файл `result_file.csv`:
 ```text
 Date;Time
-06.07.2024;16:39:45
+07.07.2024;13:53:24
 
 QTY;DESCRIPTION;PRICE;DISCOUNT;TOTAL
-6;Milk;1.07;0.64;6.42;
-
-2;Cream 400g;2.71;0.22;5.42;
-
-2;Olive oil 500 ml;5.30;0.42;10.60;
+1;Ice cream;1.19$;0.05$;1.19$
+12;Bread;0.57$;0.68$;6.84$
 
 DISCOUNT CARD;DISCOUNT PERCENTAGE
-3333;4%;
+3333;4%
 
 TOTAL PRICE;TOTAL DISCOUNT;TOTAL WITH DISCOUNT
-22.44$;1.28$;21.16$
+8.03$;0.73$;7.30$
 ```
 
-#### И сообщение в консоли:
-![img.png](img.png)
+### Дублирование чека в консоли:
+![check_console.png](check_console.png)
+
+### Проверка выбрасывания ошибок:
+- команда: `java -jar .\build\libs\app.jar 1-1 2-12 discountCard=3333 balanceDebitCard=50 pathToFile=./products.csv`.
+Результат, файл `result.csv`:
+```text
+ERROR
+BAD REQUEST
+```
+
+- команда: `java -jar .\build\libs\app.jar 1-1 2-12 discountCard=3333 balanceDebitCard=50 saveToFile=./result_file.csv`.
+Результат, файл `result_file.csv`:
+```text
+ERROR
+BAD REQUEST
+```
