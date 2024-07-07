@@ -27,6 +27,7 @@ public class ArgumentsHandlerImpl implements ArgumentsHandler {
                 try {
                     strategy.processArgument(arg, idsAndQuantities, context);
                     handled = true;
+                    break;
                 } catch (InvalidInputException ignored) {
                 }
             }

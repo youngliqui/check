@@ -48,7 +48,7 @@ public class CsvCheckRepository implements CheckRepository {
                 writer.write(
                         "\nDISCOUNT CARD;DISCOUNT PERCENTAGE\n"
                                 + discountCard.getNumber() + ";"
-                                + discountCard.getDiscount() + "%;"
+                                + discountCard.getDiscount() + "%"
                                 + "\n"
                 );
             }
