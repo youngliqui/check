@@ -36,25 +36,25 @@ public class CsvCheckRepository implements CheckRepository {
                 writer.write(
                         product.getQuantity() + ";"
                                 + product.getDescription() + ";"
-                                + product.getPrice() + ";"
-                                + currentDiscount + ";"
-                                + currentTotal + ";"
-                                + "\n\n"
+                                + product.getPrice() + "$;"
+                                + currentDiscount + "$;"
+                                + currentTotal + "$"
+                                + "\n"
                 );
             }
 
             DiscountCard discountCard = check.getDiscountCard();
             if (discountCard != null) {
                 writer.write(
-                        "DISCOUNT CARD;DISCOUNT PERCENTAGE\n"
+                        "\nDISCOUNT CARD;DISCOUNT PERCENTAGE\n"
                                 + discountCard.getNumber() + ";"
-                                + discountCard.getDiscount() + "%;"
-                                + "\n\n"
+                                + discountCard.getDiscount() + "%"
+                                + "\n"
                 );
             }
 
             writer.write(
-                    "TOTAL PRICE;TOTAL DISCOUNT;TOTAL WITH DISCOUNT\n"
+                    "\nTOTAL PRICE;TOTAL DISCOUNT;TOTAL WITH DISCOUNT\n"
                             + check.getTotalPrice() + "$;"
                             + check.getTotalDiscount() + "$;"
                             + check.getTotalWithDiscount() + "$"

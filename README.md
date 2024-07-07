@@ -22,21 +22,19 @@ java -jar .\build\libs\app.jar 1-1 2-2 15-2 1-5 discountCard=3333 balanceDebitCa
 ### По команде создается файл `result.csv`:
 ```text
 Date;Time
-06.07.2024;16:39:45
+07.07.2024;13:31:55
 
 QTY;DESCRIPTION;PRICE;DISCOUNT;TOTAL
-6;Milk;1.07;0.64;6.42;
-
-2;Cream 400g;2.71;0.22;5.42;
-
-2;Olive oil 500 ml;5.30;0.42;10.60;
+6;Milk;1.07$;0.64$;6.42$
+2;Cream 400g;2.71$;0.22$;5.42$
+2;Olive oil 500 ml;5.30$;0.42$;10.60$
 
 DISCOUNT CARD;DISCOUNT PERCENTAGE
-3333;4%;
+3333;4%
 
 TOTAL PRICE;TOTAL DISCOUNT;TOTAL WITH DISCOUNT
 22.44$;1.28$;21.16$
 ```
 
-#### И сообщение в консоли:
-![img.png](img.png)
+### Дублирование чека в консоли:
+![check_console.png](check_console.png)
