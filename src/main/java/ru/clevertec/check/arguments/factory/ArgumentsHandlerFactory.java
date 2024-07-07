@@ -10,8 +10,10 @@ public class ArgumentsHandlerFactory {
         return new ArgumentsHandlerImpl(Arrays.asList(
                 new BalanceDebitCardArgumentStrategy(),
                 new DiscountCardArgumentStrategy(),
-                new PathToFileArgumentStrategy(),
                 new SaveToFileArgumentStrategy(),
+                new DatasourceUrlArgumentStrategy(),
+                new DatasourceUsernameArgumentStrategy(),
+                new DatasourcePasswordArgumentStrategy(),
                 new ProductArgumentStrategy()
         ));
     }

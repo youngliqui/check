@@ -39,8 +39,6 @@ public class CheckController {
                 throw new InvalidInputException("Debit balance must not be null");
             }
 
-            argumentsHandler.checkPathToFileArgs(context);
-
             checkService.generateCheck(idsAndQuantities, discountCardNumber, balanceDebitCard);
 
         } catch (InvalidInputException e) {

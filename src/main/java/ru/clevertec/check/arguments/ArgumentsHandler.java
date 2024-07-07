@@ -10,6 +10,4 @@ import java.util.Map;
 public interface ArgumentsHandler {
     void handleArguments(String[] args, Map<Integer, Integer> idsAndQuantities, Map<String, Object> context)
             throws InvalidInputException;
-
-    void checkPathToFileArgs(Map<String, Object> context) throws InvalidInputException;
 }
