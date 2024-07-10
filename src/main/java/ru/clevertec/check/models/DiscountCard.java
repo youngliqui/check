@@ -1,11 +1,15 @@
 package ru.clevertec.check.models;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * The entity of a discount card
  */
 public class DiscountCard {
     private int id;
+    @SerializedName("discountCard")
     private String number;
+    @SerializedName("discountAmount")
     private int discount;
 
     public DiscountCard(int id, String number, int discount) {

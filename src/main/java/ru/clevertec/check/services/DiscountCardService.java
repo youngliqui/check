@@ -19,4 +19,12 @@ public interface DiscountCardService {
      * @throws SQLException                  - when a database error occurs
      */
     DiscountCard getDiscountCardByNumber(String number) throws SQLException, DiscountCardNotFoundException;
+
+    DiscountCard getDiscountCardById(int id) throws SQLException, DiscountCardNotFoundException;
+
+    void addDiscountCard(DiscountCard discountCard) throws SQLException;
+
+    void updateDiscountCardById(int id, DiscountCard discountCard) throws SQLException;
+
+    void deleteDiscountCardById(int id) throws SQLException;
 }

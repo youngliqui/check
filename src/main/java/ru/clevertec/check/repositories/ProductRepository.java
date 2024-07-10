@@ -26,4 +26,12 @@ public interface ProductRepository {
      * @return list of products
      */
     List<Product> getProductsByIds(List<Integer> ids) throws SQLException;
+
+    void addProduct(Product product) throws SQLException;
+
+    void updateProduct(int id, Product product) throws SQLException;
+
+    void deleteProduct(int id) throws SQLException;
+
+    void updateProductQuantity(int productId, int newQuantity) throws SQLException;
 }

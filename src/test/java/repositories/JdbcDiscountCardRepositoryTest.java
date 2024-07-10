@@ -14,7 +14,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static ru.clevertec.check.config.AppConfig.*;
+import static ru.clevertec.check.config.DataSource.*;
 
 public class JdbcDiscountCardRepositoryTest {
     private static final DiscountCard CORRECT_DISCOUNT_CARD = createCorrectDiscountCard();
@@ -22,9 +22,9 @@ public class JdbcDiscountCardRepositoryTest {
 
     @BeforeAll
     static void init() {
-        setDatasourceUrl(TestDatabaseConnection.URL);
-        setDatasourceUsername(TestDatabaseConnection.USERNAME);
-        setDatasourcePassword(TestDatabaseConnection.PASSWORD);
+        setUrl(TestDatabaseConnection.URL);
+        setUsername(TestDatabaseConnection.USERNAME);
+        setPassword(TestDatabaseConnection.PASSWORD);
     }
 
     @Test
