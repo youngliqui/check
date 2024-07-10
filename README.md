@@ -41,20 +41,20 @@ datasource.password=postgres
 }
 ```
 Ответ:
-{
-"products": [
-{
-"id": 7,
-"quantity": 1
-},
-{
-"id": 8,
-"quantity": 2
-}
-],
-"discountCard": 1111,
-"balanceDebitCard": 100
-}
+```text
+Date;Time
+11.07.2024;01:19:41
+
+QTY;DESCRIPTION;PRICE;DISCOUNT;TOTAL
+1;Packed apples 1kg;2.78$;0.08$;2.78$
+2;Packed oranges 1kg;3.20$;0.19$;6.40$
+
+DISCOUNT CARD;DISCOUNT PERCENTAGE
+1111;3%
+
+TOTAL PRICE;TOTAL DISCOUNT;TOTAL WITH DISCOUNT
+9.18$;0.27$;8.91$
+```
 
 - Также работают все CRUD-операции с Товарами и Дисконтными картами(получение, удаление. добавление, изменение)
 
