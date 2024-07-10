@@ -6,14 +6,14 @@ import ru.clevertec.check.exceptions.InvalidInputException;
 
 import java.util.Map;
 
-public class PathToFileArgumentStrategy implements ArgumentStrategy {
+public class DatasourceUsernameArgumentStrategy implements ArgumentStrategy {
     @Override
     public void processArgument(String arg, Map<Integer, Integer> idsAndQuantities, Map<String, Object> context)
             throws InvalidInputException {
-        if (arg.startsWith("pathToFile")) {
-            String newFilePath = arg.split("=")[1];
-            context.put("pathToFile", newFilePath);
-            AppConfig.setProductFilePath(newFilePath);
+        if (arg.startsWith("datasource.username=")) {
+            String value = arg.split("=")[1];
+            context.put("datasource.username", value);
+            AppConfig.setDatasourceUsername(value);
         } else {
             throw new InvalidInputException("Incorrect arg - " + arg);
         }

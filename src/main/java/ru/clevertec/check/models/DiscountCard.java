@@ -21,4 +21,8 @@ public class DiscountCard {
     public int getDiscount() {
         return discount;
     }
+
+    public int getId() {
+        return id;
+    }
 }

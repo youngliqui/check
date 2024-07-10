@@ -4,7 +4,7 @@ package ru.clevertec.check.services;
 import ru.clevertec.check.exceptions.ProductNotFoundException;
 import ru.clevertec.check.models.Product;
 
-import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -16,7 +16,8 @@ public interface ProductService {
      *
      * @param ids - list of product IDs
      * @return list of products
-     * @throws ProductNotFoundException - when at least one product was not found
+     * @throws SQLException             - when a database error occurs
+     * @throws ProductNotFoundException - when the product was not found
      */
-    List<Product> getProductsByIds(List<Integer> ids) throws ProductNotFoundException, IOException;
+    List<Product> getProductsByIds(List<Integer> ids) throws SQLException, ProductNotFoundException;
 }

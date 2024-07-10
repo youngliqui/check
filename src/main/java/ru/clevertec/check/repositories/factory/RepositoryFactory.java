@@ -4,8 +4,8 @@ import ru.clevertec.check.repositories.CheckRepository;
 import ru.clevertec.check.repositories.DiscountCardRepository;
 import ru.clevertec.check.repositories.ProductRepository;
 import ru.clevertec.check.repositories.impl.CsvCheckRepository;
-import ru.clevertec.check.repositories.impl.CsvDiscountCardRepository;
-import ru.clevertec.check.repositories.impl.CsvProductRepository;
+import ru.clevertec.check.repositories.impl.JdbcDiscountCardRepository;
+import ru.clevertec.check.repositories.impl.JdbcProductRepository;
 
 public class RepositoryFactory {
     public static CheckRepository createCheckRepository() {
@@ -13,10 +13,10 @@ public class RepositoryFactory {
     }
 
     public static DiscountCardRepository createDiscountCardRepository() {
-        return new CsvDiscountCardRepository();
+        return new JdbcDiscountCardRepository();
     }
 
     public static ProductRepository createProductRepository() {
-        return new CsvProductRepository();
+        return new JdbcProductRepository();
     }
 }

@@ -17,8 +17,8 @@ public class ArgumentsHandlerImpl implements ArgumentsHandler {
     @Override
     public void handleArguments(String[] args, Map<Integer, Integer> idsAndQuantities, Map<String, Object> context)
             throws InvalidInputException {
-        if (args.length < 2) {
-            throw new InvalidInputException("Must be more than two arguments");
+        if (args.length < 6) {
+            throw new InvalidInputException("Must be min 6 args");
         }
 
         for (String arg : args) {
@@ -39,22 +39,20 @@ public class ArgumentsHandlerImpl implements ArgumentsHandler {
         if (idsAndQuantities.isEmpty()) {
             throw new InvalidInputException("There must be at least one id-quantity bundle");
         }
+
+        checkDatabaseArgs(context);
+        checkSaveToFileArg(context);
     }
 
-    @Override
-    public void checkPathToFileArgs(Map<String, Object> context) throws InvalidInputException {
-        boolean containsPathToFile = context.containsKey("pathToFile");
-        boolean containsSaveToFile = context.containsKey("saveToFile");
-
-        if (!containsPathToFile && !containsSaveToFile) {
-            throw new InvalidInputException("saveToFile and pathToFile is missing");
+    private void checkDatabaseArgs(Map<String, Object> context) throws InvalidInputException {
+        if (!context.containsKey("datasource.url") || !context.containsKey("datasource.username")
+                || !context.containsKey("datasource.password")) {
+            throw new InvalidInputException("database arguments are missing");
         }
+    }
 
-        if (containsPathToFile && !containsSaveToFile) {
-            throw new InvalidInputException("saveToFile argument is missing");
-        }
-
-        if (!containsPathToFile) {
+    private void checkSaveToFileArg(Map<String, Object> context) throws InvalidInputException {
+        if (!context.containsKey("saveToFile")) {
             throw new InvalidInputException("pathToFile argument is missing");
         }
     }

@@ -11,8 +11,8 @@ import ru.clevertec.check.services.CheckService;
 import ru.clevertec.check.services.DiscountCardService;
 import ru.clevertec.check.services.ProductService;
 
-import java.io.IOException;
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,26 +48,32 @@ public class CheckServiceImpl implements CheckService {
             Check check = new Check(products, discountCard, idsAndQuantities);
 
             if (check.getTotalWithDiscount().compareTo(balanceDebitCard) > 0) {
-                String message = NOT_ENOUGH_MONEY.getMessage();
-                System.out.println("ERROR: " + message);
-                generateExceptionCheck(message);
+                generateException(NOT_ENOUGH_MONEY.getMessage());
             } else {
                 checkRepository.save(check);
                 printCheckToConsole(check, balanceDebitCard);
             }
 
-        } catch (ProductNotFoundException | DiscountCardNotFoundException | QuantityException e) {
-            String error = BAD_REQUEST.getMessage();
-            System.out.println(error + ": " + e.getMessage());
-            generateExceptionCheck(BAD_REQUEST.getMessage());
-        } catch (IOException e) {
-            generateExceptionCheck(INTERNAL_SERVER_ERROR.getMessage());
+        } catch (DiscountCardNotFoundException | QuantityException | ProductNotFoundException e) {
+            generateException(BAD_REQUEST.getMessage(), e.getMessage());
+        } catch (SQLException e) {
+            generateException(INTERNAL_SERVER_ERROR.getMessage(), e.getMessage());
         }
     }
 
     @Override
     public void generateExceptionCheck(String message) {
         checkRepository.saveException("ERROR\n" + message);
+    }
+
+    private void generateException(String error, String exceptionMessage) {
+        System.out.println(error + ": " + exceptionMessage);
+        generateExceptionCheck(error);
+    }
+
+    private void generateException(String error) {
+        System.out.println("ERROR: " + error);
+        generateExceptionCheck(error);
     }
 
     @Override
