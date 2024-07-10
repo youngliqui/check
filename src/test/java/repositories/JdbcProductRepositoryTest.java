@@ -20,7 +20,7 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static ru.clevertec.check.config.AppConfig.*;
+import static ru.clevertec.check.config.DataSource.*;
 
 @DisplayName("JdbcProductRepository test")
 public class JdbcProductRepositoryTest {
@@ -31,9 +31,9 @@ public class JdbcProductRepositoryTest {
 
     @BeforeAll
     static void init() {
-        setDatasourceUrl(TestDatabaseConnection.URL);
-        setDatasourceUsername(TestDatabaseConnection.USERNAME);
-        setDatasourcePassword(TestDatabaseConnection.PASSWORD);
+        setUrl(TestDatabaseConnection.URL);
+        setUsername(TestDatabaseConnection.USERNAME);
+        setPassword(TestDatabaseConnection.PASSWORD);
     }
 
     @Test

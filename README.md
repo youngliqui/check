@@ -9,52 +9,56 @@
 
 # Инструкция по запуску:
 
-При использовании **Java 21**:
+По команде создается .war файл `/build/libs/clevertec-check.war`
 
 ```
-./gradlew shadowJar
+./gradlew build
 ```
 
+Необходимо также указать системные переменные:
 ```
-java -jar .\build\libs\app.jar 1-6 18-4 10-1 discountCard=3333 balanceDebitCard=100 saveToFile=./result_file.csv datasource.url=jdbc:postgresql://localhost:5432/check datasource.username=postgres datasource.password=postgres
-```
-
-Формат команды:
-
-`java -jar .\build\libs\app.jar <items> discountCard=<cardNumber> balanceDebitCard=<balance> saveToFile=<saveToFile>
-datasource.url=<url> datasource.username=<username> datasource.password=<password>`
-
-Расшифровка команды:
-
-- `<items>` - (id-quantity): ID товара-Количество
-- `<cardNumber>` - номер дисконтной карты
-- `<balance>` - баланс дебетовой карты
-- `<saveToFile>` - путь к файлу с результатом
-- `<url>` - URL базы данных
-- `<username>` - имя пользователя базы данных
-- `<password>` - пароль пользователя базы данных
-
-### По команде создается файл `result_file.csv`:
-
-```text
-Date;Time
-10.07.2024;11:16:22
-
-QTY;DESCRIPTION;PRICE;DISCOUNT;TOTAL
-6;Milk;1.07$;0.64$;6.42$
-1;Packed beef fillet 1kg;12.80$;0.51$;12.80$
-4;Paulaner 0,5l;1.10$;0.18$;4.40$
-
-DISCOUNT CARD;DISCOUNT PERCENTAGE
-3333;4%
-
-TOTAL PRICE;TOTAL DISCOUNT;TOTAL WITH DISCOUNT
-23.62$;1.33$;22.29$
+datasource.url=jdbc:postgresql://localhost:5432/check
+datasource.username=postgres
+datasource.password=postgres
 ```
 
-### Дублирование чека в консоли:
+### Реазизовано RESTFUL-API(Servlet) приложение:
+- Получение чека. `POST http://localhost:8080/check`:
+```
+{
+    "products": [
+        {
+            "id": 7,
+            "quantity": 1
+        },
+        {
+            "id": 8,
+            "quantity": 2
+        }
+                ],
+    "discountCard": 1111,
+    "balanceDebitCard": 100
+}
+```
+Ответ:
+{
+"products": [
+{
+"id": 7,
+"quantity": 1
+},
+{
+"id": 8,
+"quantity": 2
+}
+],
+"discountCard": 1111,
+"balanceDebitCard": 100
+}
 
-![check_console.png](check_console.png)
+- Также работают все CRUD-операции с Товарами и Дисконтными картами(получение, удаление. добавление, изменение)
+
+- При ошибках возвращаются соответвующие статус-коды.
 
 ### Функционал покрыт юнит-тестами:
 

@@ -17,4 +17,12 @@ public interface DiscountCardRepository {
      * @return an Optional object containing a discount card
      */
     Optional<DiscountCard> getDiscountCardByNumber(String number) throws SQLException;
+
+    Optional<DiscountCard> getDiscountCardById(int id) throws SQLException;
+
+    void addDiscountCard(DiscountCard discountCard) throws SQLException;
+
+    void updateDiscountCard(int id, DiscountCard discountCard) throws SQLException;
+
+    void deleteDiscountCard(int id) throws SQLException;
 }

@@ -1,8 +1,13 @@
 package ru.clevertec.check.services;
 
+import ru.clevertec.check.exceptions.DiscountCardNotFoundException;
+import ru.clevertec.check.exceptions.NotEnoughMoneyException;
+import ru.clevertec.check.exceptions.ProductNotFoundException;
+import ru.clevertec.check.exceptions.QuantityException;
 import ru.clevertec.check.models.Check;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.Map;
 
 /**
@@ -17,6 +22,8 @@ public interface CheckService {
      * @param balanceDebitCard   - debit card balance
      */
     void generateCheck(Map<Integer, Integer> idsAndQuantities, String discountCardNumber, BigDecimal balanceDebitCard);
+
+    String generateCheckRest(Map<Integer, Integer> idsAndQuantities, String discountCardNumber, BigDecimal balanceDebitCard) throws NotEnoughMoneyException, SQLException, DiscountCardNotFoundException, QuantityException, ProductNotFoundException;
 
     /**
      * Generating a receipt with an error

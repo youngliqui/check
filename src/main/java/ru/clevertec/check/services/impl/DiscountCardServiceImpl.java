@@ -20,4 +20,26 @@ public class DiscountCardServiceImpl implements DiscountCardService {
                 () -> new DiscountCardNotFoundException(number)
         );
     }
+
+    @Override
+    public DiscountCard getDiscountCardById(int id) throws SQLException, DiscountCardNotFoundException {
+        return discountCardRepository.getDiscountCardById(id).orElseThrow(
+                () -> new DiscountCardNotFoundException("ID - " + id)
+        );
+    }
+
+    @Override
+    public void addDiscountCard(DiscountCard discountCard) throws SQLException {
+        discountCardRepository.addDiscountCard(discountCard);
+    }
+
+    @Override
+    public void updateDiscountCardById(int id, DiscountCard discountCard) throws SQLException {
+        discountCardRepository.updateDiscountCard(id, discountCard);
+    }
+
+    @Override
+    public void deleteDiscountCardById(int id) throws SQLException {
+        discountCardRepository.deleteDiscountCard(id);
+    }
 }
