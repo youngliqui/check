@@ -74,7 +74,7 @@ class ArgumentsHandlerImplTest {
 
         Map<String, Object> expectedContext = Map.of(
                 "balanceDebitCard", new BigDecimal("100.00"),
-                "discountCardNumber", "1111",
+                "discountCard", "1111",
                 "saveToFile", "./test_file.csv",
                 "datasource.url", "jdbc:postgresql://localhost:5432/check",
                 "datasource.username", "postgres",

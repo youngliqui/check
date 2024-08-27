@@ -7,6 +7,7 @@ import ru.clevertec.check.services.ProductService;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
@@ -17,11 +18,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> getProductsByIds(List<Integer> ids) throws SQLException, ProductNotFoundException {
-        List<Product> products = productRepository.getProductsByIds(ids);
-        if (products.isEmpty() || ids.size() != products.size()) {
-            throw new ProductNotFoundException("all products was not found");
-        }
-
-        return products;
+        return Optional.ofNullable(productRepository.getProductsByIds(ids))
+                .filter(p -> !p.isEmpty() && p.size() == ids.size())
+                .orElseThrow(() -> new ProductNotFoundException("all products was not found"));
     }
 }

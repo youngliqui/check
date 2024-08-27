@@ -1,19 +1,24 @@
 package ru.clevertec.check.arguments.impl;
 
 import ru.clevertec.check.arguments.ArgumentStrategy;
-import ru.clevertec.check.exceptions.InvalidInputException;
 
 import java.math.BigDecimal;
 import java.util.Map;
+import java.util.Optional;
 
 public class BalanceDebitCardArgumentStrategy implements ArgumentStrategy {
+    private final static String ARGUMENT_NAME = "balanceDebitCard";
+
     @Override
-    public void processArgument(String arg, Map<Integer, Integer> idsAndQuantities, Map<String, Object> context)
-            throws InvalidInputException {
-        if (arg.startsWith("balanceDebitCard=")) {
-            context.put("balanceDebitCard", new BigDecimal(arg.split("=")[1]));
-        } else {
-            throw new InvalidInputException("Incorrect argument - " + arg);
-        }
+    public boolean processArgument(String arg, Map<Integer, Integer> idsAndQuantities, Map<String, Object> context) {
+        return Optional.ofNullable(arg)
+                .filter(a -> a.startsWith(ARGUMENT_NAME))
+                .map(a -> a.split("=")[1])
+                .map(BigDecimal::new)
+                .map(balance -> {
+                    context.put(ARGUMENT_NAME, balance);
+                    return true;
+                })
+                .orElse(false);
     }
 }

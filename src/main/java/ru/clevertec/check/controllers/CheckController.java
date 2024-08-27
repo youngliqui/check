@@ -32,7 +32,7 @@ public class CheckController {
 
             argumentsHandler.handleArguments(args, idsAndQuantities, context);
 
-            String discountCardNumber = (String) context.get("discountCardNumber");
+            String discountCardNumber = (String) context.get("discountCard");
             BigDecimal balanceDebitCard = (BigDecimal) context.get("balanceDebitCard");
 
             if (balanceDebitCard == null) {
