@@ -1,22 +1,20 @@
 package ru.clevertec.check.utils;
 
-import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 public class CheckJsonParser {
     public static Map<Integer, Integer> getIdsAndQuantities(JsonObject requestBody) {
-        Map<Integer, Integer> idsAndQuantities = new HashMap<>();
-        JsonArray productsArray = requestBody.getAsJsonArray("products");
-        for (int i = 0; i < productsArray.size(); i++) {
-            JsonObject product = productsArray.get(i).getAsJsonObject();
-            int id = product.get("id").getAsInt();
-            int quantity = product.get("quantity").getAsInt();
-            idsAndQuantities.merge(id, quantity, Integer::sum);
-        }
-
-        return idsAndQuantities;
+        return StreamSupport.stream(requestBody.getAsJsonArray("products").spliterator(), false)
+                .map(JsonElement::getAsJsonObject)
+                .collect(Collectors.toMap(
+                        product -> product.get("id").getAsInt(),
+                        product -> product.get("quantity").getAsInt(),
+                        Integer::sum
+                ));
     }
 }

@@ -1,6 +1,5 @@
 package ru.clevertec.check.controllers;
 
-import jakarta.servlet.http.HttpServlet;
 import ru.clevertec.check.arguments.ArgumentsHandler;
 import ru.clevertec.check.exceptions.ErrorHandler;
 import ru.clevertec.check.exceptions.InvalidInputException;
@@ -10,8 +9,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-
-public class CheckController extends HttpServlet {
+public class CheckController {
     private final CheckService checkService;
     private final ErrorHandler errorHandler;
     private final ArgumentsHandler argumentsHandler;
@@ -34,7 +32,7 @@ public class CheckController extends HttpServlet {
 
             argumentsHandler.handleArguments(args, idsAndQuantities, context);
 
-            String discountCardNumber = (String) context.get("discountCardNumber");
+            String discountCardNumber = (String) context.get("discountCard");
             BigDecimal balanceDebitCard = (BigDecimal) context.get("balanceDebitCard");
 
             if (balanceDebitCard == null) {

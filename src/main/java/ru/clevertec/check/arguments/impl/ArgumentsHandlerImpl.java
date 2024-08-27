@@ -4,14 +4,22 @@ import ru.clevertec.check.arguments.ArgumentStrategy;
 import ru.clevertec.check.arguments.ArgumentsHandler;
 import ru.clevertec.check.exceptions.InvalidInputException;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Stream;
 
 public class ArgumentsHandlerImpl implements ArgumentsHandler {
     private final List<ArgumentStrategy> strategyList;
+    private final List<String> requiredKeys;
+
 
     public ArgumentsHandlerImpl(List<ArgumentStrategy> strategyList) {
         this.strategyList = strategyList;
+        requiredKeys = Arrays.asList(
+                "datasource.url",
+                "datasource.username",
+                "datasource.password",
+                "saveToFile"
+        );
     }
 
     @Override
@@ -21,39 +29,35 @@ public class ArgumentsHandlerImpl implements ArgumentsHandler {
             throw new InvalidInputException("Must be min 6 args");
         }
 
-        for (String arg : args) {
-            boolean handled = false;
-            for (ArgumentStrategy strategy : strategyList) {
-                try {
-                    strategy.processArgument(arg, idsAndQuantities, context);
-                    handled = true;
-                    break;
-                } catch (InvalidInputException ignored) {
-                }
-            }
-            if (!handled) {
-                throw new InvalidInputException("Incorrect argument - " + arg);
-            }
+        Optional<String> unhandledArg = Stream.of(args).filter(arg ->
+                Optional.ofNullable(strategyList)
+                        .stream()
+                        .flatMap(Collection::stream)
+                        .noneMatch(strategy -> strategy.processArgument(arg, idsAndQuantities, context))
+        ).findFirst();
+
+        if (unhandledArg.isPresent()) {
+            throw new InvalidInputException("Incorrect argument - " + unhandledArg.get());
         }
 
         if (idsAndQuantities.isEmpty()) {
             throw new InvalidInputException("There must be at least one id-quantity bundle");
         }
 
-        checkDatabaseArgs(context);
-        checkSaveToFileArg(context);
+
+        checkContextArgs(context);
     }
 
-    private void checkDatabaseArgs(Map<String, Object> context) throws InvalidInputException {
-        if (!context.containsKey("datasource.url") || !context.containsKey("datasource.username")
-                || !context.containsKey("datasource.password")) {
-            throw new InvalidInputException("database arguments are missing");
-        }
-    }
+    private void checkContextArgs(Map<String, Object> context) throws InvalidInputException {
+        Optional.ofNullable(context)
+                .orElseThrow(() -> new InvalidInputException("Context is null"));
 
-    private void checkSaveToFileArg(Map<String, Object> context) throws InvalidInputException {
-        if (!context.containsKey("saveToFile")) {
-            throw new InvalidInputException("pathToFile argument is missing");
+        List<String> missingKeys = requiredKeys.stream()
+                .filter(key -> !context.containsKey(key))
+                .toList();
+
+        if (!missingKeys.isEmpty()) {
+            throw new InvalidInputException("Missing arguments: " + String.join(", ", missingKeys));
         }
     }
 }

@@ -1,6 +1,7 @@
 package ru.clevertec.check.controllers;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -12,6 +13,7 @@ import ru.clevertec.check.services.CheckService;
 import ru.clevertec.check.services.factory.ServiceFactory;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 import static ru.clevertec.check.utils.CheckJsonParser.getIdsAndQuantities;
 
@@ -31,12 +33,10 @@ public class CheckServlet extends HttpServlet {
             JsonObject requestBody = gson.fromJson(req.getReader(), JsonObject.class);
 
             String discountCardNumber = requestBody.get("discountCard").getAsString();
-            BigDecimal balanceDebitCard = requestBody.get("balanceDebitCard").getAsBigDecimal();
 
-
-            if (balanceDebitCard == null) {
-                throw new InvalidInputException("balance debit card must not be null");
-            }
+            BigDecimal balanceDebitCard = Optional.ofNullable(requestBody.get("balanceDebitCard"))
+                    .map(JsonElement::getAsBigDecimal)
+                    .orElseThrow(() -> new InvalidInputException("balance debit card must not be null"));
 
             String checkString = checkService.generateCheckRest(
                     getIdsAndQuantities(requestBody), discountCardNumber, balanceDebitCard
@@ -44,6 +44,7 @@ public class CheckServlet extends HttpServlet {
 
             resp.setContentType("text/plain");
             resp.getWriter().write(checkString);
+
         } catch (InvalidInputException | QuantityException | NotEnoughMoneyException e) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         } catch (ProductNotFoundException | DiscountCardNotFoundException e) {
