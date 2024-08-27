@@ -1,18 +1,22 @@
 package ru.clevertec.check.arguments.impl;
 
 import ru.clevertec.check.arguments.ArgumentStrategy;
-import ru.clevertec.check.exceptions.InvalidInputException;
 
 import java.util.Map;
+import java.util.Optional;
 
 public class DiscountCardArgumentStrategy implements ArgumentStrategy {
+    private static final String ARGUMENT_NAME = "discountCard";
+
     @Override
-    public void processArgument(String arg, Map<Integer, Integer> idsAndQuantities, Map<String, Object> context)
-            throws InvalidInputException {
-        if (arg.startsWith("discountCard=")) {
-            context.put("discountCardNumber", arg.split("=")[1]);
-        } else {
-            throw new InvalidInputException("Incorrect argument - " + arg);
-        }
+    public boolean processArgument(String arg, Map<Integer, Integer> idsAndQuantities, Map<String, Object> context) {
+        return Optional.ofNullable(arg)
+                .filter(a -> a.startsWith(ARGUMENT_NAME))
+                .map(a -> a.split("=")[1])
+                .map(value -> {
+                    context.put(ARGUMENT_NAME, value);
+                    return true;
+                })
+                .orElse(false);
     }
 }
