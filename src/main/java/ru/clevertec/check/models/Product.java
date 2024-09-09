@@ -1,6 +1,7 @@
 package ru.clevertec.check.models;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 /**
  * The entity of the product
@@ -24,16 +25,8 @@ public class Product {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getDescription() {
         return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public int getQuantity() {
@@ -48,15 +41,31 @@ public class Product {
         return isWholesale;
     }
 
-    public void setWholesale(boolean wholesale) {
-        isWholesale = wholesale;
-    }
-
     public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return id == product.id && quantity == product.quantity && isWholesale == product.isWholesale && Objects.equals(description, product.description) && Objects.equals(price, product.price);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, description, quantity, isWholesale, price);
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", quantity=" + quantity +
+                ", isWholesale=" + isWholesale +
+                ", price=" + price +
+                '}';
     }
 }

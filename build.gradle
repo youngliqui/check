@@ -12,19 +12,24 @@ repositories {
 }
 
 dependencies {
-    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: '5.11.0-M2'
-    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.11.0-M2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.11.0-M2'
-    testImplementation group: 'org.mockito', name: 'mockito-core', version: '5.12.0'
-    testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '5.12.0'
-    testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.26.0'
+    testImplementation platform('org.junit:junit-bom:5.11.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter-params'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    testImplementation 'com.h2database:h2:2.3.232'
 
-    implementation group: 'org.apache.commons', name: 'commons-csv', version: '1.11.0'
 
-    implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.3'
+    testImplementation 'org.mockito:mockito-core:5.12.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.12.0'
 
-    compileOnly group: 'jakarta.servlet', name: 'jakarta.servlet-api', version: '6.1.0'
-    implementation group: 'com.google.code.gson', name: 'gson', version: '2.11.0'
+    testImplementation 'org.assertj:assertj-core:3.26.0'
+
+    testImplementation 'org.skyscreamer:jsonassert:1.5.3'
+
+    implementation 'org.apache.commons:commons-csv:1.11.0'
+    implementation 'org.postgresql:postgresql:42.7.3'
+    implementation 'jakarta.servlet:jakarta.servlet-api:6.1.0'
+    implementation 'com.google.code.gson:gson:2.11.0'
 }
 
 test {
